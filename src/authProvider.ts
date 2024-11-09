@@ -1,8 +1,7 @@
-import { AuthBindings } from "@refinedev/core";
-
+import { AuthProvider } from "@refinedev/core";
 import { supabaseClient } from "./utility";
 
-const authProvider: AuthBindings = {
+const authProvider: AuthProvider = {
   login: async ({ email, password, providerName }) => {
     // sign in with oauth
     try {
@@ -101,7 +100,7 @@ const authProvider: AuthBindings = {
         email,
         {
           redirectTo: `${window.location.origin}/update-password`,
-        }
+        },
       );
 
       if (error) {
