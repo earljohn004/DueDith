@@ -24,7 +24,7 @@ import authProvider from "./authProvider";
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { CategoryCreate, CategoryList } from "./pages/category";
+import { CategoryCreate, CategoryList, TestList } from "./pages/category";
 import { supabaseClient } from "./utility";
 
 function App() {
@@ -66,6 +66,14 @@ function App() {
                     label: "Category",
                   },
                 },
+                {
+                  name: "test-category",
+                  list: "/test-category",
+                  meta: {
+                    parent: "tracker",
+                    label: "Test-Category",
+                  },
+                },
               ]}
               options={{
                 syncWithLocation: true,
@@ -98,6 +106,9 @@ function App() {
                   <Route path="/category">
                     <Route index element={<CategoryList />} />
                     <Route path="create" element={<CategoryCreate />} />
+                  </Route>
+                  <Route path="/test-category">
+                    <Route index element={<TestList />} />
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>
