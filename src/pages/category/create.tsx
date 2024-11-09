@@ -15,7 +15,14 @@ export const CategoryCreate = () => {
     refineCore: { formLoading },
     register,
     control,
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      profile_id: "501",
+      name: "",
+      description: "",
+      type: "EXPENSE",
+    },
+  });
 
   const { options } = useSelect<Profile>({
     resource: "profile",
@@ -66,7 +73,7 @@ export const CategoryCreate = () => {
             </TextField>
           )}
         />
-        <Controller
+        {/* <Controller
           name="profile_id"
           control={control}
           render={({ field }) => (
@@ -84,7 +91,7 @@ export const CategoryCreate = () => {
               ))}
             </TextField>
           )}
-        />
+        /> */}
       </Box>
     </Create>
   );
