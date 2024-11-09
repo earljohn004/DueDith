@@ -11,7 +11,7 @@ VALUES
 INSERT INTO
     public.category (
         profile_id,
-        NAME,
+        name,
         description,
         TYPE,
         created_at
@@ -71,7 +71,7 @@ VALUES
             FROM
                 public.category
             WHERE
-                NAME = 'Groceries'
+                name = 'Groceries'
             LIMIT
                 1
         ), 501, NOW(),
@@ -86,7 +86,7 @@ VALUES
             FROM
                 public.category
             WHERE
-                NAME = 'Utilities'
+                name = 'Utilities'
             LIMIT
                 1
         ), 501, NOW(),
@@ -101,7 +101,7 @@ VALUES
             FROM
                 public.category
             WHERE
-                NAME = 'Salary'
+                name = 'Salary'
             LIMIT
                 1
         ), 502, NOW(),
@@ -116,7 +116,7 @@ VALUES
             FROM
                 public.category
             WHERE
-                NAME = 'Entertainment'
+                name = 'Entertainment'
             LIMIT
                 1
         ), 502, NOW(),
@@ -131,7 +131,7 @@ VALUES
             FROM
                 public.category
             WHERE
-                NAME = 'Savings'
+                name = 'Savings'
             LIMIT
                 1
         ), 503, NOW(),
