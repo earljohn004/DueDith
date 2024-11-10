@@ -26,6 +26,7 @@ import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { CategoryCreate, CategoryList, TestList } from "./pages/category";
 import { supabaseClient } from "./utility";
+import BudgetList from "./pages/budget/list";
 
 function App() {
   return (
@@ -101,7 +102,7 @@ function App() {
                     element={<NavigateToResource resource="budget" />}
                   />
                   <Route path="/budget">
-                    <Route index element={<>Budget</>} />
+                    <Route index element={<BudgetList />} />
                   </Route>
                   <Route path="/category">
                     <Route index element={<CategoryList />} />
