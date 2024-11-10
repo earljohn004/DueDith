@@ -24,8 +24,9 @@ import authProvider from "./authProvider";
 import { AppIcon } from "./components/app-icon";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { CategoryCreate, CategoryList } from "./pages/category";
+import { CategoryCreate, CategoryList, TestList } from "./pages/category";
 import { supabaseClient } from "./utility";
+import BudgetList from "./pages/budget/list";
 
 function App() {
   return (
@@ -66,6 +67,14 @@ function App() {
                     label: "Category",
                   },
                 },
+                {
+                  name: "test-category",
+                  list: "/test-category",
+                  meta: {
+                    parent: "tracker",
+                    label: "Test-Category",
+                  },
+                },
               ]}
               options={{
                 syncWithLocation: true,
@@ -93,11 +102,14 @@ function App() {
                     element={<NavigateToResource resource="budget" />}
                   />
                   <Route path="/budget">
-                    <Route index element={<>Budget</>} />
+                    <Route index element={<BudgetList />} />
                   </Route>
                   <Route path="/category">
                     <Route index element={<CategoryList />} />
                     <Route path="create" element={<CategoryCreate />} />
+                  </Route>
+                  <Route path="/test-category">
+                    <Route index element={<TestList />} />
                   </Route>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>

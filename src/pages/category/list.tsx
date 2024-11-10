@@ -1,29 +1,13 @@
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import {
-  DeleteButton,
-  EditButton,
-  List,
-  ShowButton,
-  useDataGrid,
-} from "@refinedev/mui";
+import { List, useDataGrid } from "@refinedev/mui";
 import React from "react";
+import Summary from "../../components/summary/index.";
 
 export const CategoryList = () => {
   const { dataGridProps } = useDataGrid({});
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
-      {
-        field: "id",
-        headerName: "ID",
-        type: "string",
-      },
-      {
-        field: "profile_id",
-        flex: 1,
-        headerName: "Profile",
-        type: "number",
-      },
       {
         field: "name",
         flex: 1,
@@ -36,7 +20,7 @@ export const CategoryList = () => {
         flex: 1,
         headerName: "Description",
         type: "string",
-        minWidth: 100,
+        minWidth: 150,
       },
       {
         field: "type",
@@ -46,12 +30,19 @@ export const CategoryList = () => {
         minWidth: 100,
       },
     ],
-    []
+    [],
   );
 
   return (
-    <List>
-      <DataGrid {...dataGridProps} columns={columns} autoHeight />
-    </List>
+    <>
+      <List>
+        <Summary />
+        <DataGrid
+          {...dataGridProps}
+          columns={columns}
+          getRowHeight={() => "auto"}
+        />
+      </List>
+    </>
   );
 };
