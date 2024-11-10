@@ -1,7 +1,6 @@
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { List, useDataGrid } from "@refinedev/mui";
 import React from "react";
-import Summary from "../../components/summary/index.";
 
 export const CategoryList = () => {
   const { dataGridProps } = useDataGrid({});
@@ -36,7 +35,6 @@ export const CategoryList = () => {
   return (
     <>
       <List>
-        <Summary />
         <DataGrid
           {...dataGridProps}
           columns={columns}

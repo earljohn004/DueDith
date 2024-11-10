@@ -1,10 +1,9 @@
 import { List } from "@refinedev/mui";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import Summary from "../../components/summary/index.";
 import { useTable } from "@refinedev/react-table";
-import { ColumnDef, flexRender } from "@tanstack/react-table";
-import { Box, Button, Card, CardContent, Typography } from "@mui/material";
-import { gridRowsDataRowIdToIdLookupSelector } from "@mui/x-data-grid";
+import { ColumnDef } from "@tanstack/react-table";
+import { Box, Grid, Typography } from "@mui/material";
 import DatePickerView from "../../components/datepicker/datepicker";
 
 interface ICategory {
@@ -52,16 +51,7 @@ const BudgetList = () => {
     [],
   );
   const {
-    getHeaderGroups,
     getRowModel,
-    getState,
-    setPageIndex,
-    getCanPreviousPage,
-    getPageCount,
-    getCanNextPage,
-    nextPage,
-    previousPage,
-    setPageSize,
     refineCore: { setFilters },
   } = useTable<IBudget>({
     refineCoreProps: {
@@ -83,61 +73,42 @@ const BudgetList = () => {
           },
         ],
       },
+      sorters: {
+        initial: [{ field: "currency", order: "asc" }],
+      },
     },
     columns,
   });
-
-  const handlePreviousPage = () => {
-    if (getCanPreviousPage()) setPageIndex(0);
-  };
-
-  const handleNextPage = () => {
-    if (getCanNextPage()) setPageIndex(getPageCount() - 1);
-  };
 
   return (
     <>
       <List>
         <DatePickerView />
         <Summary />
-        <Box display="flex" flexWrap="wrap" gap={2}>
-          {getRowModel().rows.map((row) => (
-            <Card
-              key={row.id}
-              variant="outlined"
-              sx={{ minWidth: 350, maxWidth: 360 }}
-            >
-              <CardContent>
-                <Typography color="text.secondary">
-                  <strong>Category:</strong> {row.original.category.name}
-                </Typography>
-                <Typography color="text.secondary">
-                  <strong>Description:</strong>{" "}
-                  {row.original.category.description}
-                </Typography>
-                <Typography color="text.secondary">
-                  <strong>Amount:</strong> {row.original.amount}{" "}
-                  {row.original.currency}
-                </Typography>
-              </CardContent>
-            </Card>
+        <Box>
+          <Typography align="right" variant="body1">
+            -S$ 12345
+          </Typography>
+          {getRowModel().rows.map((row, index) => (
+            <>
+              <Grid container sx={{ margin: 2 }}>
+                <Grid item xs={1} />
+                <Grid item xs={7}>
+                  <Typography variant="h6">
+                    {row.original.category.name}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    {row.original.category.description}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography color="text.secondary">
+                    {row.original.currency} {row.original.amount}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </>
           ))}
-        </Box>
-        <Box mt={2} display="flex" justifyContent="center" gap={2}>
-          <Button
-            variant="contained"
-            onClick={handlePreviousPage}
-            disabled={!getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleNextPage}
-            disabled={!getCanNextPage()}
-          >
-            Next
-          </Button>
         </Box>
       </List>
     </>
