@@ -1,10 +1,11 @@
 import { List } from "@refinedev/mui";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Summary from "../../components/summary/index.";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { gridRowsDataRowIdToIdLookupSelector } from "@mui/x-data-grid";
+import DatePickerView from "../../components/datepicker/datepicker";
 
 interface ICategory {
   name: string;
@@ -61,18 +62,31 @@ const BudgetList = () => {
     nextPage,
     previousPage,
     setPageSize,
+    refineCore: { setFilters },
   } = useTable<IBudget>({
     refineCoreProps: {
       resource: "budget",
       meta: {
         select: "*, category!inner(*)",
       },
+      filters: {
+        initial: [
+          {
+            field: "profile_id",
+            operator: "eq",
+            value: "501",
+          },
+          {
+            field: "end_date",
+            operator: "gte",
+            value: "2024-11-01",
+          },
+        ],
+      },
     },
     columns,
   });
 
-  // Caching rows to prevent recalculations on every render
-  const rows = React.useMemo(() => getRowModel().rows, [getRowModel]);
   const handlePreviousPage = () => {
     if (getCanPreviousPage()) setPageIndex(0);
   };
@@ -84,10 +98,15 @@ const BudgetList = () => {
   return (
     <>
       <List>
+        <DatePickerView />
         <Summary />
         <Box display="flex" flexWrap="wrap" gap={2}>
-          {rows.map((row) => (
-            <Card key={row.id} variant="outlined" sx={{ minWidth: 380 }}>
+          {getRowModel().rows.map((row) => (
+            <Card
+              key={row.id}
+              variant="outlined"
+              sx={{ minWidth: 350, maxWidth: 360 }}
+            >
               <CardContent>
                 <Typography color="text.secondary">
                   <strong>Category:</strong> {row.original.category.name}
