@@ -1,15 +1,23 @@
 import { List } from "@refinedev/mui";
-import React from "react";
+import React, { useState } from "react";
 import Summary from "../../components/summary/index.";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { gridRowsDataRowIdToIdLookupSelector } from "@mui/x-data-grid";
 
+interface ICategory {
+  name: string;
+  description: string;
+}
 interface IBudget {
   amount: number;
   currency: string;
   start_date: string;
   end_date: string;
   interval: number;
+  created_at: string;
+  category: ICategory;
 }
 
 const BudgetList = () => {
@@ -62,46 +70,69 @@ const BudgetList = () => {
     },
     columns,
   });
+
+  // Caching rows to prevent recalculations on every render
+  const rows = React.useMemo(() => getRowModel().rows, [getRowModel]);
+  const handlePreviousPage = () => {
+    if (getCanPreviousPage()) setPageIndex(0);
+  };
+
+  const handleNextPage = () => {
+    if (getCanNextPage()) setPageIndex(getPageCount() - 1);
+  };
+
   return (
     <>
       <List>
         <Summary />
-        <div className="card-container">
-          {getRowModel().rows.map((row) => (
-            <div key={row.id} className="card">
-              <div className="card-content">
-                <h3>Transaction ID: {row.original.id}</h3>
-                <p>
+        <Box display="flex" flexWrap="wrap" gap={2}>
+          {rows.map((row) => (
+            <Card key={row.id} variant="outlined">
+              <CardContent>
+                <Typography color="text.secondary">
                   <strong>Category:</strong> {row.original.category.name}
-                </p>
-                <p>
-                  <strong>Category Type:</strong> {row.original.category.type}
-                </p>
-                <p>
+                </Typography>
+                <Typography color="text.secondary">
                   <strong>Description:</strong>{" "}
                   {row.original.category.description}
-                </p>
-                <p>
+                </Typography>
+                <Typography color="text.secondary">
                   <strong>Amount:</strong> {row.original.amount}{" "}
                   {row.original.currency}
-                </p>
-                <p>
+                </Typography>
+                <Typography color="text.secondary">
                   <strong>Interval:</strong> {row.original.interval}
-                </p>
-                <p>
+                </Typography>
+                <Typography color="text.secondary">
                   <strong>Start Date:</strong> {row.original.start_date}
-                </p>
-                <p>
+                </Typography>
+                <Typography color="text.secondary">
                   <strong>End Date:</strong> {row.original.end_date}
-                </p>
-                <p>
+                </Typography>
+                <Typography color="text.secondary">
                   <strong>Created At:</strong>{" "}
                   {new Date(row.original.created_at).toLocaleString()}
-                </p>
-              </div>
-            </div>
+                </Typography>
+              </CardContent>
+            </Card>
           ))}
-        </div>
+        </Box>
+        <Box mt={2} display="flex" justifyContent="center" gap={2}>
+          <Button
+            variant="contained"
+            onClick={handlePreviousPage}
+            disabled={!getCanPreviousPage()}
+          >
+            Previous Page
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleNextPage}
+            disabled={!getCanNextPage()}
+          >
+            Next Page
+          </Button>
+        </Box>
       </List>
     </>
   );
