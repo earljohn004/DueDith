@@ -87,7 +87,7 @@ const BudgetList = () => {
         <Summary />
         <Box display="flex" flexWrap="wrap" gap={2}>
           {rows.map((row) => (
-            <Card key={row.id} variant="outlined">
+            <Card key={row.id} variant="outlined" sx={{ minWidth: 380 }}>
               <CardContent>
                 <Typography color="text.secondary">
                   <strong>Category:</strong> {row.original.category.name}
@@ -100,19 +100,6 @@ const BudgetList = () => {
                   <strong>Amount:</strong> {row.original.amount}{" "}
                   {row.original.currency}
                 </Typography>
-                <Typography color="text.secondary">
-                  <strong>Interval:</strong> {row.original.interval}
-                </Typography>
-                <Typography color="text.secondary">
-                  <strong>Start Date:</strong> {row.original.start_date}
-                </Typography>
-                <Typography color="text.secondary">
-                  <strong>End Date:</strong> {row.original.end_date}
-                </Typography>
-                <Typography color="text.secondary">
-                  <strong>Created At:</strong>{" "}
-                  {new Date(row.original.created_at).toLocaleString()}
-                </Typography>
               </CardContent>
             </Card>
           ))}
@@ -123,14 +110,14 @@ const BudgetList = () => {
             onClick={handlePreviousPage}
             disabled={!getCanPreviousPage()}
           >
-            Previous Page
+            Previous
           </Button>
           <Button
             variant="contained"
             onClick={handleNextPage}
             disabled={!getCanNextPage()}
           >
-            Next Page
+            Next
           </Button>
         </Box>
       </List>
